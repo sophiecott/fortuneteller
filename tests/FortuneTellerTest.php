@@ -18,11 +18,16 @@ class FortuneTellerTest extends TestCase {
    public function testMoneyArray_WithDefaultEntires_ReturnsCountOf3() {
 
         $fortuneTeller = new FortuneTeller();
-        $reflection = new ReflectionClass($fortuneTeller);
-        $property = $reflection->getProperty('money_array');
-        $property->setAccessible(true);
-        $moneyArray = $property->getValue($fortuneTeller);
         
+        // Use get_object_vars() to access dynamically created properties
+        $objectVars = get_object_vars($fortuneTeller);
+        
+        // Ensure the 'money_array' key exists before accessing it
+        $this->assertArrayHasKey('money_array', $objectVars);
+        
+        $moneyArray = $objectVars['money_array'];
+        
+        $this->assertIsArray($moneyArray);
         $this->assertCount(3, $moneyArray);
 
    }
